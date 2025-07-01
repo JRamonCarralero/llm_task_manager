@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f0f2f5;
+  color: #333;
+}
+
+.App {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.App-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.App-header h1 {
+  color: #2c3e50;
+  font-size: 2.2em;
+  margin-bottom: 10px;
+}
+
+.App-header p {
+  color: #7f8c8d;
+  font-size: 1.1em;
+}
+
+.command-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.command-input {
+  flex-grow: 1;
+  padding: 12px 15px;
+  border: 1px solid #dfe6e9;
+  border-radius: 8px;
+  font-size: 1em;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.command-input:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  outline: none;
+}
+
+.command-button {
+  padding: 12px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.command-button:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+.command-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.message-box {
+  padding: 12px 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.message-box.success {
+  background-color: #e6ffe6;
+  color: #27ae60;
+  border: 1px solid #27ae60;
+}
+
+.message-box.error {
+  background-color: #ffe6e6;
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+}
+
+.message-box.info {
+  background-color: #e6f7ff;
+  color: #3498db;
+  border: 1px solid #3498db;
+}
+
+h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+}
+
+.loading-text, .no-tasks {
+  text-align: center;
+  color: #7f8c8d;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+}
+
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fdfdfd;
+  border: 1px solid #ecf0f1;
+  border-radius: 10px;
+  padding: 15px 20px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.task-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.task-details {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.task-description {
+  font-weight: 600;
+  color: #34495e;
+  font-size: 1.1em;
+  margin-bottom: 5px;
+}
+
+.task-date {
+  font-size: 0.9em;
+  color: #95a5a6;
+  margin-bottom: 3px;
+}
+
+.task-status {
+  font-size: 0.85em;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  align-self: flex-start; /* Alinea el estado a la izquierda */
+}
+
+.task-status.pending {
+  background-color: #fef3c7; /* light yellow */
+  color: #d97706; /* dark yellow */
+}
+
+.task-status.completed {
+  background-color: #d1fae5; /* light green */
+  color: #059669; /* dark green */
+}
+
+.task-status.in_progress {
+  background-color: #bfdbfe; /* light blue */
+  color: #1d4ed8; /* dark blue */
+}
+
+.task-status.cancelled {
+  background-color: #fee2e2; /* light red */
+  color: #ef4444; /* dark red */
+}
+
+.task-id {
+  font-size: 0.8em;
+  color: #bdc3c7;
+  margin-left: 20px;
+  white-space: nowrap; /* Evita que el ID se rompa en varias líneas */
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .App {
+    margin: 20px auto;
+    padding: 15px;
+  }
+
+  .command-form {
+    flex-direction: column;
+  }
+
+  .command-input {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .task-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .task-id {
+    margin-top: 10px;
+    margin-left: 0;
+  }
+}
