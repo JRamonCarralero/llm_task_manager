@@ -9,8 +9,8 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import List, Optional, Literal, Dict, Any
-from bson.objectid import ObjectId # Importar ObjectId para json_encoders
-from pymongo.errors import ConnectionFailure # Importar ConnectionFailure
+from bson.objectid import ObjectId
+from pymongo.errors import ConnectionFailure
 
 # Cargar variables de entorno desde el archivo .env
 load_dotenv()
@@ -36,7 +36,7 @@ class TaskUpdate(BaseModel):
 class Task(TaskBase):
     """Modelo completo de una tarea, incluyendo el ID de MongoDB."""
     id: str = Field(..., alias="_id") # Mapea _id de MongoDB a 'id' en la respuesta JSON
-    created_at: datetime # Campo adicional para la fecha de creación
+    created_at: datetime
 
     class Config:
         """Configuración para Pydantic."""
@@ -51,7 +51,6 @@ class Task(TaskBase):
 class LLMCommand(BaseModel):
     """
     Define el esquema de JSON que esperamos del LLM.
-    Este es el corazón de nuestro Model Context Protocol (MCP).
     """
     action: Literal["create", "read", "update", "delete", "unknown"]
     task_id: Optional[str] = None
@@ -119,7 +118,7 @@ async def call_llm_for_command(user_prompt: str) -> LLMCommand:
             },
             "start_date": {
                 "type": "STRING",
-                "format": "date-time", # Correcto para la API de Gemini
+                "format": "date-time",
                 "description": "Start date of the task in McClellan-MM-DD format. Optional for create/update."
             },
             "status": {
@@ -136,7 +135,6 @@ async def call_llm_for_command(user_prompt: str) -> LLMCommand:
         "propertyOrdering": ["action", "task_id", "description", "start_date", "status", "message"]
     }
 
-    # ¡CORRECCIÓN CRÍTICA: Duplicar las llaves en los ejemplos JSON dentro de la lista de cadenas!
     prompt_template_lines = [
         "Eres un asistente de gestión de tareas. Tu objetivo es interpretar los comandos del usuario y devolver UN OBJETO JSON que represente la acción y los datos de la tarea. NO INCLUYAS NINGÚN TEXTO ADICIONAL FUERA DEL JSON.",
         "Las fechas deben estar en formato McClellan-MM-DD.",
@@ -148,12 +146,12 @@ async def call_llm_for_command(user_prompt: str) -> LLMCommand:
         "Comando de usuario: 'crear la tarea \"realizar app\" con fecha de inicio 03-07-2025 y estado \"pendiente\"'",
         "JSON esperado:",
         "```json",
-        "{{", # ¡Aquí la corrección! Ahora son llaves dobles
+        "{{",
         "  \"action\": \"create\",",
         "  \"description\": \"realizar app\",",
         "  \"start_date\": \"2025-07-03\",",
         "  \"status\": \"pending\"",
-        "}}", # ¡Aquí la corrección! Ahora son llaves dobles
+        "}}",
         "```",
         "",
         "Comando de usuario: 'marcar tarea 60c7b41b1d7d8f9c7b4c3e21 como completada'",

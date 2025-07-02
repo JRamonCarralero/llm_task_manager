@@ -6,8 +6,10 @@ from datetime import datetime
 
 class MongoDBManager:
     def __init__(self):
-        # Obtener la URI de MongoDB de las variables de entorno
-        # Asegúrate de que tu archivo .env tenga MONGO_URI="mongodb://localhost:27017/" (o tu URI de Atlas)
+        """
+        Initializes the MongoDBManager by setting the MongoDB URI, client, and database attributes.
+        Attempts to establish a connection to the MongoDB server using the provided URI or defaults to a local instance.
+        """
         self.mongo_uri = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
         self.client = None
         self.db = None
@@ -19,11 +21,10 @@ class MongoDBManager:
             self.client = MongoClient(self.mongo_uri)
             # Intenta una operación para verificar la conexión
             self.client.admin.command('ping')
-            self.db = self.client.task_manager_db # Nombre de tu base de datos
+            self.db = self.client.task_manager_db # Nombre de la base de datos
             print("Conexión a MongoDB establecida con éxito.")
         except ConnectionFailure as e:
             print(f"Error al conectar a MongoDB: {e}")
-            # Puedes decidir si quieres relanzar la excepción o manejarla de otra manera
             raise
 
     def close_connection(self):
@@ -34,7 +35,6 @@ class MongoDBManager:
 
     def add_task(self, description: str, start_date: str = None, status: str = "pending") -> str:
         """Añade una nueva tarea a la base de datos."""
-        # CORRECCIÓN: Usar 'is None' para comprobar el objeto de la base de datos
         if self.db is None:
             print("Error: No hay conexión a la base de datos.")
             return None
@@ -42,7 +42,7 @@ class MongoDBManager:
         task_data = {
             "description": description,
             "created_at": datetime.now(),
-            "status": status # Usar el status proporcionado o el default
+            "status": status
         }
         if start_date:
             task_data["start_date"] = start_date
@@ -59,7 +59,6 @@ class MongoDBManager:
         Recupera todas las tareas de la base de datos.
         Asegura que el campo 'status' siempre sea válido.
         """
-        # CORRECCIÓN: Usar 'is None' para comprobar el objeto de la base de datos
         if self.db is None:
             print("Error: No hay conexión a la base de datos.")
             return []
@@ -89,7 +88,6 @@ class MongoDBManager:
 
     def update_task(self, task_id: str, description: str = None, start_date: str = None, status: str = None) -> bool:
         """Actualiza una tarea existente por su ID."""
-        # CORRECCIÓN: Usar 'is None' para comprobar el objeto de la base de datos
         if self.db is None:
             print("Error: No hay conexión a la base de datos.")
             return False
@@ -100,13 +98,12 @@ class MongoDBManager:
         if start_date:
             update_fields["start_date"] = start_date
         if status:
-            # Opcional: añadir validación aquí también si el status viene del usuario
             valid_statuses = {"pending", "completed", "in_progress", "cancelled"}
             if status in valid_statuses:
                 update_fields["status"] = status
             else:
                 print(f"Advertencia: Intento de actualizar tarea {task_id} con estado inválido '{status}'. Ignorando el cambio de estado.")
-                return False # O manejar de otra forma, por ejemplo, lanzar una excepción
+                return False 
 
         if not update_fields:
             return False # No hay campos para actualizar
@@ -123,7 +120,6 @@ class MongoDBManager:
 
     def delete_task(self, task_id: str) -> bool:
         """Elimina una tarea por su ID."""
-        # CORRECCIÓN: Usar 'is None' para comprobar el objeto de la base de datos
         if self.db is None:
             print("Error: No hay conexión a la base de datos.")
             return False

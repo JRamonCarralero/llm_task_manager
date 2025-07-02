@@ -4,6 +4,16 @@ import './App.css'; // Para estilos básicos
 
 const API_BASE_URL = 'http://localhost:5000'; // La URL de tu backend FastAPI
 
+/**
+ * La función principal de la aplicación, que renderiza la interfaz de usuario y gestiona el estado.
+ *
+ * Esta función se encarga de:
+ *  1. Mostrar la interfaz de usuario, incluyendo un formulario para introducir comandos de texto.
+ *  2. Renderizar una lista de tareas, con sus descripciones, fechas de inicio y estado.
+ *  3. Procesar los comandos de texto introducidos por el usuario, llamando a la API de FastAPI.
+ *  4. Mostrar mensajes de resultado para cada comando, como por ejemplo "Tarea creada correctamente" o "Error al procesar el comando".
+ *  5. Refrescar la lista de tareas después de cada comando, si es necesario.
+ */
 function App() {
   const [tasks, setTasks] = useState([]);
   const [commandInput, setCommandInput] = useState('');
@@ -16,6 +26,15 @@ function App() {
     fetchTasks();
   }, []);
 
+/**
+ * Fetches the list of tasks from the backend API and updates the state.
+ *
+ * This function will set the loading state to true, make an HTTP GET request
+ * to the tasks endpoint, and update the tasks state with the retrieved data.
+ * In case of an error, it logs the error and updates the message state with
+ * an error message. The loading state is set to false once the request is
+ * completed, regardless of success or failure.
+ */
   const fetchTasks = async () => {
     setLoading(true);
     try {
@@ -30,6 +49,11 @@ function App() {
     }
   };
 
+  /**
+   * Processes the user's command input by calling the FastAPI backend API.
+   * @param {Event} e The submit event of the command form.
+   * @async
+   */
   const handleCommandSubmit = async (e) => {
     e.preventDefault();
     if (!commandInput.trim()) {

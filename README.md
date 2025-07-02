@@ -1,6 +1,8 @@
-# Gestor de tareas MCP
+# Gestor de tareas LLM
 
 ## Descripción
+
+Aplicación para la gestión de tareas por medio de comandos de texto, utilizando un LLM (Large Language Model) para interpretar los comandos y realizar acciones sobre las tareas.
 
 ## Instalación Backend
 
